@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">WaiaM</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint_timein">Time in...</string>
+    <string name="hint_datein">Date in...</string>
+    <string name="hint_timeout">Time out...</string>
+    <string name="hint_dateout">Date out...</string>
+    <string name="hint_earnings">Earnings...</string>
+    <string name="hint_timenow">Set time as now</string>
+    <string name="button_save">Save</string>
+    <string name="pick_timein">Pick Time in</string>
+    <string name="pick_datein">Pick Date in</string>
+    <string name="pick_timeout">Pick Time out</string>
+    <string name="pick_dateout">Pick Date out</string>
+    <string name="hourly_wage">Hourly Wage</string>
+    <string name="total_earnings">Total Earnings</string>
+    <string name="total_hoursworked">Hours Worked</string>
+    <string name="empty_not_saved">Income not saved because there are empty fields.</string>
+</resources>
