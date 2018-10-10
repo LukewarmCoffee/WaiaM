@@ -6,9 +6,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.ActionMode;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -100,14 +103,27 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
                 Bundle allReplies = new Bundle();
+                double earnings = formatEarnings(mEditEarningsView.getText().toString());
+
                 if (mDateIn == null || mDateOut == null || TextUtils.isEmpty(mEditEarningsView.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
+
+                    if(mDateOut.getTime() <= mDateIn.getTime()) {
+                        Toast.makeText(getApplicationContext(), "Time out cant be less than or equal to time in", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    if(earnings <= 0) {
+                        Toast.makeText(getApplicationContext(), "Earnings cannot be less than or equal to $0", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
                     allReplies.putLong("TIME_IN", mDateIn.getTime());
 
                     allReplies.putLong("TIME_OUT", mDateOut.getTime());
 
-                    allReplies.putDouble("EARNINGS", formatEarnings(mEditEarningsView.getText().toString())); //earnings reply
+                    allReplies.putDouble("EARNINGS", earnings); //earnings reply
 
                     replyIntent.putExtras(allReplies);
                     setResult(RESULT_OK, replyIntent);
@@ -131,7 +147,6 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
     }
 
     public double formatEarnings(String earnings){
-        //todo doesnt work for ","
         earnings = earnings.replace(",", "");
         return Double.parseDouble(earnings.substring(1));   //the first character from earnings is $
     }

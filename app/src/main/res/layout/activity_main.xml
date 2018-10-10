@@ -5,11 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_scrollFlags="scroll|enterAlways" />
+
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/myconstraint"
@@ -21,12 +17,46 @@
             android:id="@+id/viewPager"
             android:layout_width="wrap_content"
             android:layout_height="253dp"
-            android:layout_marginTop="56dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/viewPager"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/linearLayout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/viewPager">
+
+            <TextView
+                android:id="@+id/dateTitle"
+                android:text="@string/show_datein"
+                android:textStyle="bold"
+                style="@style/word_title"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_green_dark" />
+
+            <TextView
+                android:id="@+id/hoursTitle"
+                android:text="@string/show_hours_worked"
+                android:textStyle="bold"
+                style="@style/word_title"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_green_dark" />
+            <TextView
+                android:id="@+id/earningsTitle"
+                android:text="@string/show_earnings"
+                android:textStyle="bold"
+                style="@style/word_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/holo_green_dark" />
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -35,9 +65,10 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewPager"
-            app:layout_constraintVertical_bias="0.100000024" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </android.support.constraint.ConstraintLayout>

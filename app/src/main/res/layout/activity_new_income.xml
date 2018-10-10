@@ -1,139 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myconstraint"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="25dp">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+
+    <Button
+        android:id="@+id/pick_timein"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_scrollFlags="scroll|enterAlways" />
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:text="@string/pick_timein"
+        app:layout_constraintEnd_toStartOf="@+id/timeinset_now"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/myconstraint"
+    <Button
+        android:id="@+id/timeinset_now"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/hint_timenow"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pick_timein"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/pick_timein" />
+
+
+    <TextView
+        android:id="@+id/timein"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/hint_timein"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pick_timein" />
 
-        <Button
-            android:id="@+id/pick_timein"
-            android:layout_width="159dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="13dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/pick_timein"
-            app:layout_constraintBottom_toTopOf="@+id/timein"
-            app:layout_constraintEnd_toStartOf="@+id/timeinset_now"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/pick_timeout"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="@string/pick_timeout"
+        app:layout_constraintEnd_toStartOf="@+id/timeoutset_now"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timein" />
 
-        <Button
-            android:id="@+id/timeinset_now"
-            android:layout_width="191dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="22dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/hint_timenow"
-            app:layout_constraintBottom_toTopOf="@+id/timein"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/pick_timein"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_chainStyle="spread_inside" />
+    <Button
+        android:id="@+id/timeoutset_now"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="@string/hint_timenow"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pick_timeout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/pick_timeout" />
 
-        <TextView
-            android:id="@+id/timein"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:hint="@string/hint_timein"
-            app:layout_constraintBottom_toTopOf="@+id/pick_timeout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pick_timein" />
+    <TextView
+        android:id="@+id/timeout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/hint_timeout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pick_timeout" />
 
-        <Button
-            android:id="@+id/pick_timeout"
-            android:layout_width="159dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/pick_timeout"
-            app:layout_constraintBottom_toTopOf="@+id/timeout"
-            app:layout_constraintEnd_toStartOf="@+id/timeoutset_now"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timein" />
-
-        <Button
-            android:id="@+id/timeoutset_now"
-            android:layout_width="189dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/hint_timenow"
-            app:layout_constraintBottom_toTopOf="@+id/timeout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/pick_timeout"
-            app:layout_constraintTop_toBottomOf="@+id/timein" />
-
-        <TextView
-            android:id="@+id/timeout"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/pick_timeout"
-            app:layout_constraintBottom_toTopOf="@+id/edit_earnings"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pick_timeout" />
-
-        <com.blackcat.currencyedittext.CurrencyEditText
-            android:id="@+id/edit_earnings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="248dp"
-            android:layout_marginTop="8dp"
-            android:digits="0123456789."
-            android:inputType="numberDecimal"
-            android:padding="@dimen/small_padding"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timeout" />
-
-    </android.support.constraint.ConstraintLayout>
-
+    <com.blackcat.currencyedittext.CurrencyEditText
+        android:id="@+id/edit_earnings"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:digits="0123456789."
+        android:inputType="numberDecimal"
+        android:padding="@dimen/small_padding"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pickearnings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/pickearnings" />
+    <TextView
+        android:id="@+id/pickearnings"
+        android:layout_width="154dp"
+        android:layout_height="50dp"
+        android:text="@string/pick_earnings"
+        app:layout_constraintEnd_toStartOf="@+id/edit_earnings"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeout" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
@@ -142,5 +111,8 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
+</android.support.constraint.ConstraintLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+
+
+

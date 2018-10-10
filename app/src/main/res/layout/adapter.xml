@@ -7,19 +7,22 @@
     android:layout_gravity="center"
     app:cardUseCompatPadding="true">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+    android:id="@+id/titleText"
+    style="@style/TextAppearance.AppCompat.Title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/titleText"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+
 
             <TextView
                 android:id="@+id/contentText"
-                style="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="70dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"/>

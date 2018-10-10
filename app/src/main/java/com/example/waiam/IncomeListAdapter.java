@@ -14,11 +14,15 @@ import java.util.concurrent.TimeUnit;
 
 public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.IncomeViewHolder> {
     class IncomeViewHolder extends RecyclerView.ViewHolder {
-        private final TextView incomeItemView;
+        private final TextView DateInView;
+        private final TextView HoursWorkedView;
+        private final TextView EarningsMadeView;
 
         private IncomeViewHolder(View itemView) {
             super (itemView);
-            incomeItemView = itemView.findViewById(R.id.textView);
+            DateInView = itemView.findViewById(R.id.textView);
+            HoursWorkedView = itemView.findViewById(R.id.textView2);
+            EarningsMadeView = itemView.findViewById(R.id.textView3);
         }
     }
 
@@ -38,11 +42,14 @@ public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.In
         if (mIncomes != null) {
             Income current = mIncomes.get(position);
             double hoursWorked = TimeUnit.MILLISECONDS.toHours(current.getTimeOut().getTime() - current.getTimeIn().getTime());
-            holder.incomeItemView.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault()).format(current.getTimeIn())
-                    + " " + hoursWorked + " " + current.getEarnings()); //TODO: formatting
+            holder.DateInView.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault()).format(current.getTimeIn())); //TODO: formatting
+            holder.HoursWorkedView.setText((int)hoursWorked + "");
+            holder.EarningsMadeView.setText("$" + current.getEarnings());
         } else {
             //covers the case of data not being ready yet
-            holder.incomeItemView.setText("No Income");
+            holder.DateInView.setText("No Income");
+            holder.HoursWorkedView.setText("No Hours Worked");
+            holder.EarningsMadeView.setText("No Earnings");
         }
     }
 

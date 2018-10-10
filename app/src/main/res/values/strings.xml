@@ -12,8 +12,12 @@
     <string name="pick_datein">Pick Date in</string>
     <string name="pick_timeout">Pick Time out</string>
     <string name="pick_dateout">Pick Date out</string>
+    <string name="pick_earnings">Pick Earnings...</string>
     <string name="hourly_wage">Hourly Wage</string>
     <string name="total_earnings">Total Earnings</string>
     <string name="total_hoursworked">Hours Worked</string>
+    <string name="show_datein">Time In</string>
+    <string name="show_hours_worked">Hours Worked</string>
+    <string name="show_earnings">Earnings</string>
     <string name="empty_not_saved">Income not saved because there are empty fields.</string>
 </resources>

@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -36,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar =  findViewById(R.id.toolbar);
+       // mToolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,9 +66,10 @@ public class MainActivity extends AppCompatActivity {
                 calcsDataAdapter.setCalcs(calcs);
                 //refresh the card views with the new data
                 mCalcAdapter = new CalcsPagerAdapter(); //this works really well to fix the issue of refreshing data, im sure theres some issue i dont know about
-                mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, calcsDataAdapter.getHourlyWage()));
-                mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings, calcsDataAdapter.getTotalEarnings()));
-                mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, calcsDataAdapter.getTotalHoursWorked()));
+                NumberFormat deciForm = new DecimalFormat("##.##");
+                mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage())));
+                mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings())));
+                mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked())));
                 viewPager.setAdapter(mCalcAdapter);
                 //todo expert: modify old cards without replacing any
             }

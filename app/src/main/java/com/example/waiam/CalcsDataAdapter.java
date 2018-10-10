@@ -9,7 +9,7 @@ public class CalcsDataAdapter {
         mCalcs = calcs;
     }
 
-    public String getHourlyWage(){
+    public Double getHourlyWage(){
         double earnings = 0.0;
         double hoursWorked = 0.0;
 
@@ -19,24 +19,24 @@ public class CalcsDataAdapter {
             hoursWorked += mCalcs.get(i).getHoursWorked();
         }
         earnings /= hoursWorked;
-        return "" + earnings;
+        return earnings;
     }
 
-    public String getTotalEarnings(){
+    public Double getTotalEarnings(){
         double earnings = 0.0;
         //this is costly
         for (int i = 0; i < mCalcs.size(); i++)
             earnings += mCalcs.get(i).getEarnings();
-        return "" + earnings;
+        return earnings;
     }
 
 
-    public String getTotalHoursWorked(){
+    public Double getTotalHoursWorked(){
         double hoursWorked = 0.0;
         //this is costly
         for (int i = 0; i < mCalcs.size(); i++)
             hoursWorked += mCalcs.get(i).getHoursWorked();
-        return "" + hoursWorked;
+        return hoursWorked;
     }
 
 }
