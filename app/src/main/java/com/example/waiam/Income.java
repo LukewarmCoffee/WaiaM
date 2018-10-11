@@ -20,12 +20,12 @@ public class Income {
     @ColumnInfo(name = "timeIN")
     private Date mTimeIn;
 
-    @ColumnInfo(name = "timeOut")
-    private Date mTimeOut;
+    @ColumnInfo(name = "timeWorked")
+    private long mTimeWorked;
 
-    public Income(Date timeIn, Date timeOut, double earnings){
+    public Income(Date timeIn, long timeWorked, double earnings){
         this.mTimeIn = timeIn;
-        this.mTimeOut = timeOut;
+        this.mTimeWorked = timeWorked;
         this.mEarnings = earnings;
     }
 
@@ -34,6 +34,6 @@ public class Income {
 
     public Date getTimeIn() {return this.mTimeIn;}
 
-    public Date getTimeOut() {return this.mTimeOut;}
+    public long getTimeWorked() {return this.mTimeWorked;}
 
 }

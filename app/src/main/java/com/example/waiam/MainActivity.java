@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_INCOME_ACTIVITY_REQUEST_CODE = 1;
     //connects repository to view
     private IncomeViewModel mIncomeViewModel;
-    private CalcsViewModel mCalcsViewModel;
     private Toolbar mToolbar;
     //for card views
     private CalcsPagerAdapter mCalcAdapter;
@@ -53,27 +52,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
-        mCalcAdapter = new CalcsPagerAdapter();
+       // mCalcAdapter = new CalcsPagerAdapter();
         viewPager.setAdapter(mCalcAdapter);
         viewPager.setOffscreenPageLimit(3);
 
-        final CalcsDataAdapter  calcsDataAdapter = new CalcsDataAdapter();  //connects Calcs data to cards
-        mCalcsViewModel = ViewModelProviders.of(this).get(CalcsViewModel.class);
-        mCalcsViewModel.getAllCalcs().observe(this, new Observer<List<Calcs>>() {
-            @Override
-            public void onChanged(@Nullable final List<Calcs> calcs) {
-                //update the cached copy of the calcs in the adapter
-                calcsDataAdapter.setCalcs(calcs);
-                //refresh the card views with the new data
-                mCalcAdapter = new CalcsPagerAdapter(); //this works really well to fix the issue of refreshing data, im sure theres some issue i dont know about
-                NumberFormat deciForm = new DecimalFormat("##.##");
-                mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage())));
-                mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings())));
-                mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked())));
-                viewPager.setAdapter(mCalcAdapter);
-                //todo expert: modify old cards without replacing any
-            }
-        });
+
 
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -91,6 +74,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        final CalcsDataAdapter  calcsDataAdapter = new CalcsDataAdapter();  //connects Calcs data to cards
+        // mCalcsViewModel = ViewModelProviders.of(this).get(CalcsViewModel.class);
+        mIncomeViewModel.getAllIncomes().observe(this, new Observer<List<Income>>() {
+            @Override
+            public void onChanged(@Nullable final List<Income> incomes) {
+                //update the cached copy of the calcs in the adapter
+                calcsDataAdapter.setIncomes(incomes);
+                //refresh the card views with the new data
+                mCalcAdapter = new CalcsPagerAdapter(); //this works really well to fix the issue of refreshing data, im sure theres some issue i dont know about
+                NumberFormat deciForm = new DecimalFormat("##.##");
+                mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage())));
+                mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings())));
+                mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked())));
+                viewPager.setAdapter(mCalcAdapter);
+                //todo expert: modify old cards without replacing any
+            }
+        });
     }
 
     @Override
@@ -122,17 +123,12 @@ public class MainActivity extends AppCompatActivity {
             Bundle dataReplies = data.getExtras();
             //income_table
             Date dateIn = new Date(dataReplies.getLong("TIME_IN"));
-            Date dateOut = new Date(dataReplies.getLong("TIME_OUT"));
+            long timeWorked = dataReplies.getLong("TIME_OUT") - dateIn.getTime();
             double earnings = dataReplies.getDouble("EARNINGS");
 
-            Income income = new Income(dateIn, dateOut, earnings );
+            Income income = new Income(dateIn,timeWorked, earnings );
             mIncomeViewModel.insert(income);
 
-            //calculation_table
-            double hoursWorked = TimeUnit.MILLISECONDS.toHours(dateOut.getTime() - dateIn.getTime());
-            double hourlyWage  = earnings / hoursWorked;
-            Calcs calcs = new Calcs(dateIn, hoursWorked,  hourlyWage, earnings);
-            mCalcsViewModel.insert(calcs);
         } else {
             Toast.makeText(
                     getApplicationContext(),

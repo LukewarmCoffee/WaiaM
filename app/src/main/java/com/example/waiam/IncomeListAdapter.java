@@ -41,7 +41,7 @@ public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.In
     public void onBindViewHolder(IncomeViewHolder holder, int position) {
         if (mIncomes != null) {
             Income current = mIncomes.get(position);
-            double hoursWorked = TimeUnit.MILLISECONDS.toHours(current.getTimeOut().getTime() - current.getTimeIn().getTime());
+            double hoursWorked = TimeUnit.MILLISECONDS.toHours(current.getTimeWorked());
             holder.DateInView.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault()).format(current.getTimeIn())); //TODO: formatting
             holder.HoursWorkedView.setText((int)hoursWorked + "");
             holder.EarningsMadeView.setText("$" + current.getEarnings());

@@ -14,11 +14,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-@Database(entities = {Income.class, Calcs.class}, version = 8) //TODO: migration strategy
+@Database(entities = {Income.class}, version = 10) //TODO: migration strategy
 @TypeConverters({Converters.class})
 public abstract class IncomeRoomDatabase extends RoomDatabase {
     public abstract IncomeDao incomeDao();
-    public abstract CalcsDao calcsDao();
+  // public abstract CalcsDao calcsDao();
 
     private static IncomeRoomDatabase INSTANCE;
 
@@ -57,27 +57,27 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final IncomeDao mDao;
-        private final CalcsDao mCalcsDao;
+        //private final CalcsDao mCalcsDao;
 
         PopulateDbAsync(IncomeRoomDatabase db) {
             mDao = db.incomeDao();
-            mCalcsDao = db.calcsDao();
+           // mCalcsDao = db.calcsDao();
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
             mDao.deleteAll();
-            mCalcsDao.deleteAll();
+           // mCalcsDao.deleteAll();
 
             Date dateIn = new Date(2018,8,22, 4, 21);
-            Date dateOut = new Date(2018,8,22, 6, 21);
-            Income income = new Income(dateIn, dateOut, 100.00);
+            long timeWorked = 2000;
+            Income income = new Income(dateIn, timeWorked, 100.00);
             mDao.insert(income);
 
-            double hoursWorked =  TimeUnit.MILLISECONDS.toHours(dateOut.getTime()-dateIn.getTime());
-            double hourlyWage  = 100 / hoursWorked;
-            Calcs calcs = new Calcs(dateIn, hoursWorked, hourlyWage, 100.00);
-            mCalcsDao.insert(calcs);
+           // double hoursWorked =  TimeUnit.MILLISECONDS.toHours(timeWorked);
+           // double hourlyWage  = 100 / hoursWorked;
+           // Calcs calcs = new Calcs(dateIn, hoursWorked, hourlyWage, 100.00);
+           // mCalcsDao.insert(calcs);
             return null;
         }
     }
