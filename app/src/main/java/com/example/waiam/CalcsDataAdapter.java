@@ -4,12 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CalcsDataAdapter {
-   // private List<Calcs> mCalcs; //cached copy of calcs
     private List<Income> mIncomes;
-
-    //public void setCalcs(List<Calcs> calcs){
-       // mCalcs = calcs;
-  //}
 
     public void setIncomes(List<Income> incomes) {mIncomes = incomes;}
 

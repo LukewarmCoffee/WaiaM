@@ -2,7 +2,6 @@ package com.example.waiam;
 
 public class CardData {
 
-    //todo rename to CardData
     private int mTitle;
     private String mContent;
 

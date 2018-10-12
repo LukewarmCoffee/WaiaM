@@ -27,10 +27,9 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_INCOME_ACTIVITY_REQUEST_CODE = 1;
     //connects repository to view
     private IncomeViewModel mIncomeViewModel;
-    private Toolbar mToolbar;
-    //for card views
+    // private Toolbar mToolbar;    //todo: reimplement toolbar, include settings page
+    //for card views, each method creates a card
     private CalcsPagerAdapter mCalcAdapter;
-    private CalcsFragmentPagerAdapter mFragmentCalcsAdapter;//todo why unused?
 
 
     @Override
@@ -38,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // mToolbar =  findViewById(R.id.toolbar);s
-        setSupportActionBar(mToolbar);
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // mToolbar =  findViewById(R.id.toolbar); //reimplement
+        // setSupportActionBar(mToolbar);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-       FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,39 +50,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //holds the card views
         final ViewPager viewPager = findViewById(R.id.viewPager);
-       // mCalcAdapter = new CalcsPagerAdapter();
         viewPager.setAdapter(mCalcAdapter);
         viewPager.setOffscreenPageLimit(3);
 
-
-
-
+        //holds the income list
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         final IncomeListAdapter adapter = new IncomeListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        final CalcsDataAdapter  calcsDataAdapter = new CalcsDataAdapter();  //connects Calcs data to cards
         mIncomeViewModel = ViewModelProviders.of(this).get(IncomeViewModel.class);
-
         mIncomeViewModel.getAllIncomes().observe(this, new Observer<List<Income>>() {
             @Override
             public void onChanged(@Nullable final List<Income> incomes) {
                 //update the cached copy of the incomes in the adapter
                 adapter.setIncomes(incomes);
-            }
-        });
-
-
-        final CalcsDataAdapter  calcsDataAdapter = new CalcsDataAdapter();  //connects Calcs data to cards
-        // mCalcsViewModel = ViewModelProviders.of(this).get(CalcsViewModel.class);
-        mIncomeViewModel.getAllIncomes().observe(this, new Observer<List<Income>>() {
-            @Override
-            public void onChanged(@Nullable final List<Income> incomes) {
-                //update the cached copy of the calcs in the adapter
+                //again, our card adapter
                 calcsDataAdapter.setIncomes(incomes);
                 //refresh the card views with the new data
-                mCalcAdapter = new CalcsPagerAdapter(); //this works really well to fix the issue of refreshing data, im sure theres some issue i dont know about
+                //every time theres a change to incomes, we completely refresh our cards. This tends to be a bit expensive, especially since each method is O(n) rn
+                mCalcAdapter = new CalcsPagerAdapter();
                 NumberFormat deciForm = new DecimalFormat("##.##");
                 mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage())));
                 mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings())));
@@ -92,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 //todo expert: modify old cards without replacing any
             }
         });
+
     }
 
+    //currently useless
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -116,17 +107,19 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //method comes from newIncomeactivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_INCOME_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             Bundle dataReplies = data.getExtras();
             //income_table
-            Date dateIn = new Date(dataReplies.getLong("TIME_IN"));
+            Date dateIn = new Date(dataReplies.getLong("TIME_IN")); //todo handle null
             long timeWorked = dataReplies.getLong("TIME_OUT") - dateIn.getTime();
             double earnings = dataReplies.getDouble("EARNINGS");
 
             Income income = new Income(dateIn,timeWorked, earnings );
+            //Use the view model to insert an income into the db
             mIncomeViewModel.insert(income);
 
         } else {

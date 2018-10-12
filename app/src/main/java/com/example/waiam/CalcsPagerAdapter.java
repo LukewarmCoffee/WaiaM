@@ -13,8 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class CalcsPagerAdapter extends PagerAdapter implements CardDataAdapter {
+//the idea from this class comes from someones repository, todo make sure to credit author
+public class CalcsPagerAdapter extends PagerAdapter {
     private List<CardData> mData;
     private List<CardView> mViews;
 
@@ -32,11 +32,6 @@ public class CalcsPagerAdapter extends PagerAdapter implements CardDataAdapter {
     public void addCalcsItem(CardData data) {
         mViews.add(null);
         mData.add(data);
-    }
-
-    @Override
-    public CardView getCardViewAt(int position){
-        return mViews.get(position);
     }
 
     @Override

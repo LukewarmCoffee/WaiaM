@@ -18,11 +18,7 @@ import java.util.GregorianCalendar;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     private setTimeListener mTimeListener;
-    private String mTimeRequesting;
     private TimeObj mTimeObj;
-
-    public TimePickerFragment() {
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -32,8 +28,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mTimeRequesting = getArguments().getString("TIME_REQUESTING");  //different string same key for in or out
-
         final TimeViewModel model = ViewModelProviders.of(getActivity()).get(TimeViewModel.class);
 
         model.getSelected().observe(this, new Observer<TimeObj>() {
@@ -55,8 +49,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     }
 
     public void onTimeSet(TimePicker view, int hour, int minute) {
-        // Do something with the time chosen by the user
-
         Calendar cal = Calendar.getInstance();  //gets teh correct timezone
         cal.set(mTimeObj.getYear(), mTimeObj.getMonth(), mTimeObj.getDay(), hour, minute);
         Date date = new Date(cal.getTimeInMillis());

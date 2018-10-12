@@ -35,7 +35,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
+        //timeobj and viewModel allow our date picker and time picker to talk to each other. todo extend this so when somone cancels, they dont see the time picker
         TimeObj timeObj = new TimeObj(day, month, year, mDateIn);
         model.select(timeObj);
     }

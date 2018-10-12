@@ -31,7 +31,6 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
         setContentView(R.layout.activity_new_income);
         mEditTimeInView = findViewById(R.id.timein);
         mEditTimeOutView = findViewById(R.id.timeout);
-
         mEditEarningsView = findViewById(R.id.edit_earnings);   //uses BlacKCaT27 repository. does not allow typing of "." so you have to type two 00's every time you have no decimals, change in future
 
 
@@ -43,10 +42,12 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("IS_DATE_IN", true);
+
+                //this appears first
                 DialogFragment timeFragment = new TimePickerFragment();
                 timeFragment.setArguments(bundle);
                 timeFragment.show(getSupportFragmentManager(), "v1");//Date in picker
-
+                //date frag is simply drawn over the time frag
                 DialogFragment dateFragment = new DatePickerFragment();
                 dateFragment.setArguments(bundle);
                 dateFragment.show(getSupportFragmentManager(), null);
@@ -61,7 +62,6 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
             public void onClick(View view){
                 mDateIn = Calendar.getInstance().getTime();
                 mEditTimeInView.setText(mDateIn + "");
-
             }
         });
 
@@ -73,8 +73,6 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("IS_DATE_IN", false);
 
-
-                //call from date fragment
                 DialogFragment timeFragment = new TimePickerFragment();
                 timeFragment.setArguments(bundle);
                 timeFragment.show(getSupportFragmentManager(), null);
@@ -92,23 +90,20 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
             public void onClick(View view){
                 mDateOut = Calendar.getInstance().getTime();
                 mEditTimeOutView.setText(mDateOut + "");
-
             }
         });
 
 
-        //todo: dont allow timout to be < timein
         final FloatingActionButton fabSave = findViewById(R.id.fab);
         fabSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
                 Bundle allReplies = new Bundle();
                 double earnings = formatEarnings(mEditEarningsView.getText().toString());
-
+                //if you have incomplete fields, it takes you back to main. mEditEarningsView should never be empty in this current iteration
                 if (mDateIn == null || mDateOut == null || TextUtils.isEmpty(mEditEarningsView.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-
                     if(mDateOut.getTime() <= mDateIn.getTime()) {
                         Toast.makeText(getApplicationContext(), "Time out cant be less than or equal to time in", Toast.LENGTH_LONG).show();
                         return;

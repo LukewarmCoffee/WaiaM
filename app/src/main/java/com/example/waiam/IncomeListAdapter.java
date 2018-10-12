@@ -43,6 +43,7 @@ public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.In
             Income current = mIncomes.get(position);
             double hoursWorked = TimeUnit.MILLISECONDS.toHours(current.getTimeWorked());
             holder.DateInView.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault()).format(current.getTimeIn())); //TODO: formatting
+            //as these are just numbers, it's not a big deal that im concating text
             holder.HoursWorkedView.setText((int)hoursWorked + "");
             holder.EarningsMadeView.setText("$" + current.getEarnings());
         } else {
