@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -13,16 +14,21 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.IncomeViewHolder> {
-    class IncomeViewHolder extends RecyclerView.ViewHolder {
+    class IncomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView DateInView;
         private final TextView HoursWorkedView;
         private final TextView EarningsMadeView;
 
         private IncomeViewHolder(View itemView) {
             super (itemView);
+            itemView.setOnClickListener(this);
             DateInView = itemView.findViewById(R.id.textView);
             HoursWorkedView = itemView.findViewById(R.id.textView2);
             EarningsMadeView = itemView.findViewById(R.id.textView3);
+        }
+        @Override
+        public void onClick(View view){
+            DateInView.setText("sadjfiksabdkfjsb");
         }
     }
 
