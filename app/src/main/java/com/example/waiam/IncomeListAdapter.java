@@ -2,7 +2,11 @@ package com.example.waiam;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,21 +18,19 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.IncomeViewHolder> {
-    class IncomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class IncomeViewHolder extends RecyclerView.ViewHolder{
         private final TextView DateInView;
         private final TextView HoursWorkedView;
         private final TextView EarningsMadeView;
+        ActionMode mActionMode;
+
 
         private IncomeViewHolder(View itemView) {
             super (itemView);
-            itemView.setOnClickListener(this);
+           // itemView.setOnClickListener(this);
             DateInView = itemView.findViewById(R.id.textView);
             HoursWorkedView = itemView.findViewById(R.id.textView2);
             EarningsMadeView = itemView.findViewById(R.id.textView3);
-        }
-        @Override
-        public void onClick(View view){
-            DateInView.setText("sadjfiksabdkfjsb");
         }
     }
 

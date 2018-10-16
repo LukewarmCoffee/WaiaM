@@ -1,5 +1,6 @@
 package com.example.waiam;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,9 +30,45 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_INCOME_ACTIVITY_REQUEST_CODE = 1;
     //connects repository to view
     private IncomeViewModel mIncomeViewModel;
-    // private Toolbar mToolbar;    //todo: reimplement toolbar, include settings page
+    private Toolbar mToolbar;    //todo: reimplement toolbar, include settings page
     //for card views, each method creates a card
     private CalcsPagerAdapter mCalcAdapter;
+
+
+    private ActionMode.Callback modeCallBack = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            //inflate resource with items
+            MenuInflater inflater = actionMode.getMenuInflater();
+            inflater.inflate(R.menu.context_menu, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_delete:
+                    deleteItem();
+                    actionMode.finish();
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            actionMode = null;
+        }
+    };
+
+    private void deleteItem(){
+
+    }
 
 
     @Override
@@ -79,6 +118,14 @@ public class MainActivity extends AppCompatActivity {
                 mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked())));
                 viewPager.setAdapter(mCalcAdapter);
                 //todo expert: modify old cards without replacing any
+            }
+        });
+
+        //todo this currently does nothing, put callback in its own class and call from correct spot
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((Activity)getApplicationContext()).startActionMode(modeCallBack);
             }
         });
 
