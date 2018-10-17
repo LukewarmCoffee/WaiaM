@@ -20,5 +20,7 @@ public class IncomeViewModel extends AndroidViewModel {
 
 
     public void insert(Income income) {mRepository.insert(income); }
+
+    public void delete(Income income)  {mRepository.delete(income);}
 }
 

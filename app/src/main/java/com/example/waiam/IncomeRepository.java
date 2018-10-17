@@ -24,6 +24,8 @@ public class IncomeRepository {
         new insertAsyncTask(mIncomeDao).execute(income);
     }
 
+    public void delete (Income income)  {new deleteAsyncTask(mIncomeDao).execute(income);}
+
     private static class insertAsyncTask extends AsyncTask<Income, Void, Void> {
         private IncomeDao mAsyncTaskDao;
 
@@ -34,6 +36,20 @@ public class IncomeRepository {
         @Override
         protected Void doInBackground(final Income... params) {
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Income, Void, Void> {
+        private IncomeDao mAsyncTaskDao;
+
+        deleteAsyncTask(IncomeDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Income... params) {
+            mAsyncTaskDao.delete(params[0]);
             return null;
         }
     }

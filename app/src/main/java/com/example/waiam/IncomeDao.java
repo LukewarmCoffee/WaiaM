@@ -2,6 +2,7 @@ package com.example.waiam;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -13,6 +14,9 @@ public interface IncomeDao {
 
     @Insert
     void insert(Income income);
+
+    @Delete
+    void delete(Income income);
 
     @Query("DELETE FROM income_table")
     void deleteAll();
