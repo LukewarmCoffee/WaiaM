@@ -32,18 +32,53 @@ public class MainActivity extends AppCompatActivity {
     //connects repository to view
     private IncomeViewModel mIncomeViewModel;
     private Toolbar mToolbar;    //todo: reimplement toolbar, include settings page
+    private Integer mPosition;
     //for card views, each method creates a card
     private CalcsPagerAdapter mCalcAdapter;
+
+    private ActionMode.Callback mModeCallBack;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // mToolbar =  findViewById(R.id.toolbar); //reimplement
         // setSupportActionBar(mToolbar);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        mModeCallBack = new ActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                //inflate resource with items
+                MenuInflater inflater = actionMode.getMenuInflater();
+                inflater.inflate(R.menu.context_menu, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.menu_delete:
+                        if (mPosition != null)
+                            deleteItem(mPosition);
+                        actionMode.finish();
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+                actionMode = null;
+            }
+        };
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +92,9 @@ public class MainActivity extends AppCompatActivity {
         OnRecyclerItemClickListener recyclerItemClickListener = new OnRecyclerItemClickListener() {
             @Override
             public void onItemViewClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), "tapped " + position, Toast.LENGTH_LONG).show();    //todo combine this with callback
+                mPosition = position;   //global variable... scary
+                //todo highlight selection
+                ((Activity) view.getContext()).startActionMode(mModeCallBack);
             }
         };
 
@@ -93,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    void deleteItem(Integer position){
+        mIncomeViewModel.delete(position);
     }
 
     //currently useless

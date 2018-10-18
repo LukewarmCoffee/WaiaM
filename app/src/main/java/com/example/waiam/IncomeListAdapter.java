@@ -50,52 +50,9 @@ public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.In
         }
     }
 
-
-
-    private ActionMode.Callback mModeCallBack = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            //inflate resource with items
-            MenuInflater inflater = actionMode.getMenuInflater();
-            inflater.inflate(R.menu.context_menu, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.menu_delete:
-                    deleteItem();
-                    actionMode.finish();
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode actionMode) {
-            actionMode = null;
-        }
-    };
-
-    private void deleteItem(){
-       // setResult(RESULT_OK, replyIntent);
-    }
-
     @Override
     public IncomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View itemView) {
-                ((Activity) itemView.getContext()).startActionMode(mModeCallBack);
-            }
-        });
         return new IncomeViewHolder(itemView);
     }
 
@@ -119,10 +76,6 @@ public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.In
     void setIncomes(List<Income> incomes){
         mIncomes = incomes;
         notifyDataSetChanged();
-    }
-
-    Income getIncomePosition (int position){
-        return mIncomes.get(position);
     }
 
     //getItemCount() is called many times, and when it is first called,
