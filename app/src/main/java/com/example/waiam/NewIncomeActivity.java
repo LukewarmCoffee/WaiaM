@@ -21,6 +21,9 @@ import java.util.Locale;
 
 public class NewIncomeActivity extends AppCompatActivity implements TimePickerFragment.setTimeListener {
     public static final String EXTRA_REPLY = "com.example.android.incomelistsql.REPLY";
+    private int mId = 0, mRequestCode;
+    private long mTimeIn, mTimeWorked;
+    private double mEarnings;
 
     private TextView mEditTimeInView, mEditTimeOutView, mEditEarningsView;
     private Date mDateIn, mDateOut;
@@ -29,10 +32,25 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_income);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
         mEditTimeInView = findViewById(R.id.timein);
         mEditTimeOutView = findViewById(R.id.timeout);
         mEditEarningsView = findViewById(R.id.edit_earnings);   //uses BlacKCaT27 repository. does not allow typing of "." so you have to type two 00's every time you have no decimals, change in future
 
+        //2 is the edit_activity request code
+        if (bundle.getInt("requestCode") ==  2) {
+            mId = bundle.getInt("id");
+            mDateIn =new Date(bundle.getLong("timeIn"));
+            mDateOut = new Date(mDateIn.getTime() + bundle.getLong("timeWorked"));
+            mEarnings = bundle.getDouble("earnings");
+
+            mEditTimeInView.setText(mDateIn + "");
+            mEditTimeOutView.setText(mDateOut + "");
+            mEditEarningsView.setText("$" + String.format("%,.2f", mEarnings));
+        }
 
 
         //Time in picker
@@ -113,6 +131,8 @@ public class NewIncomeActivity extends AppCompatActivity implements TimePickerFr
                         Toast.makeText(getApplicationContext(), "Earnings cannot be less than or equal to $0", Toast.LENGTH_LONG).show();
                         return;
                     }
+
+                    allReplies.putInt("ID", mId);   //this value only matters if we're editing an income
 
                     allReplies.putLong("TIME_IN", mDateIn.getTime());
 

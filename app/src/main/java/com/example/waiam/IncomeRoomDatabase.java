@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-@Database(entities = {Income.class}, version = 10) //TODO: migration strategy
+@Database(entities = {Income.class}, version = 11) //TODO: migration strategy
 @TypeConverters({Converters.class})
 public abstract class IncomeRoomDatabase extends RoomDatabase {
     public abstract IncomeDao incomeDao();
@@ -68,7 +68,7 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
 
             Date dateIn = new Date(2018,8,22, 4, 21);
             long timeWorked = 2000;
-            Income income = new Income(dateIn, timeWorked, 100.00);
+            Income income = new Income(0, dateIn, timeWorked, 100.00);
             mDao.insert(income);
 
             return null;

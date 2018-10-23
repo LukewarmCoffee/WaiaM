@@ -29,10 +29,12 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     public static final int NEW_INCOME_ACTIVITY_REQUEST_CODE = 1;
+    public static final int NEW_INCOME_ACTIVITY_EDIT_REQUEST_CODE = 2;
     //connects repository to view
     private IncomeViewModel mIncomeViewModel;
     private Toolbar mToolbar;    //todo: reimplement toolbar, include settings page
     private Integer mPosition;
+    private View highlightedView;
     //for card views, each method creates a card
     private CalcsPagerAdapter mCalcAdapter;
 
@@ -69,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
                         if (mPosition != null)
                             deleteItem(mPosition);
                         actionMode.finish();
+                    case R.id.menu_edit:
+                        if(mPosition != null)
+                            editItem(mPosition);
+                        actionMode.finish();
                     default:
                         return false;
                 }
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDestroyActionMode(ActionMode actionMode) {
+                highlightedView.setActivated(false);
                 actionMode = null;
             }
         };
@@ -93,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemViewClick(View view, int position) {
                 mPosition = position;   //global variable... scary
+                view.setActivated(true);
+                highlightedView = view;
                 //todo highlight selection
                 ((Activity) view.getContext()).startActionMode(mModeCallBack);
             }
@@ -136,6 +145,19 @@ public class MainActivity extends AppCompatActivity {
         mIncomeViewModel.delete(position);
     }
 
+    //newincomeactivity is started, but it knows the old income
+    void editItem(Integer position){
+        Intent intent = new Intent(MainActivity.this, NewIncomeActivity.class);
+        Bundle incomeBun = new Bundle();
+        Income income = mIncomeViewModel.get(position);
+        incomeBun.putInt("id", income.getId());
+        incomeBun.putLong("timeIn", income.getTimeIn().getTime());
+        incomeBun.putLong("timeWorked", income.getTimeWorked());
+        incomeBun.putDouble("earnings", income.getEarnings());
+        intent.putExtras(incomeBun);
+        startActivityForResult(intent, NEW_INCOME_ACTIVITY_EDIT_REQUEST_CODE);
+    }
+
     //currently useless
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,6 +181,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode){
+        intent.putExtra("requestCode", requestCode);
+        super.startActivityForResult(intent, requestCode);
+    }
+
     //method comes from newIncomeactivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -170,10 +198,20 @@ public class MainActivity extends AppCompatActivity {
             long timeWorked = dataReplies.getLong("TIME_OUT") - dateIn.getTime();
             double earnings = dataReplies.getDouble("EARNINGS");
 
-            Income income = new Income(dateIn,timeWorked, earnings );
+            Income income = new Income(0, dateIn, timeWorked, earnings);
             //Use the view model to insert an income into the db
             mIncomeViewModel.insert(income);
+        }else if (requestCode == NEW_INCOME_ACTIVITY_EDIT_REQUEST_CODE && resultCode == RESULT_OK) {
+            Bundle dataReplies = data.getExtras();
+            //income_table
+            int id = dataReplies.getInt("ID");
+            Date dateIn = new Date(dataReplies.getLong("TIME_IN")); //todo handle null
+            long timeWorked = dataReplies.getLong("TIME_OUT") - dateIn.getTime();
+            double earnings = dataReplies.getDouble("EARNINGS");
 
+            Income income = new Income(id, dateIn, timeWorked, earnings);
+            //Use the view model to insert an income into the db
+            mIncomeViewModel.update(income);
         } else {
             Toast.makeText(
                     getApplicationContext(),

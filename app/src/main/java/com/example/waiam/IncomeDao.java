@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,9 @@ public interface IncomeDao {
 
     @Delete
     void delete(Income income);
+
+    @Update
+    void update(Income income);
 
     @Query("DELETE FROM income_table")
     void deleteAll();
