@@ -28,7 +28,7 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             IncomeRoomDatabase.class, "income_database")
                             .fallbackToDestructiveMigration() //resets database, because im too lazy to create migration pattern yet
-                            .addCallback(sRoomDatabaseCallback) //make sure to edit this out if you want the database to persist
+                            //.addCallback(sRoomDatabaseCallback) //make sure to edit this out if you want the database to persist
                             .build();
                 }
             }
