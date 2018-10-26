@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_INCOME_ACTIVITY_EDIT_REQUEST_CODE = 2;
     //connects repository to view
     private IncomeViewModel mIncomeViewModel;
-    private Toolbar mToolbar;    //todo: reimplement toolbar, include settings page
     private Integer mPosition;
     private View highlightedView;
     //for card views, each method creates a card
@@ -45,9 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // mToolbar =  findViewById(R.id.toolbar); //reimplement
-        // setSupportActionBar(mToolbar);
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
         mModeCallBack = new ActionMode.Callback() {
@@ -61,20 +59,23 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                highlightedView.setActivated(true);
                 return false;
             }
 
             @Override
             public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.menu_delete:
-                        if (mPosition != null)
-                            deleteItem(mPosition);
-                        actionMode.finish();
                     case R.id.menu_edit:
                         if(mPosition != null)
                             editItem(mPosition);
                         actionMode.finish();
+                        return true;
+                    case R.id.menu_delete:
+                        if (mPosition != null)
+                            deleteItem(mPosition);
+                        actionMode.finish();
+                        return true;
                     default:
                         return false;
                 }
@@ -100,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemViewClick(View view, int position) {
                 mPosition = position;   //global variable... scary
-                view.setActivated(true);
+                if (highlightedView != null && highlightedView.isActivated())
+                    highlightedView.setActivated(false);
+                //view.setActivated(true);
                 highlightedView = view;
                 //todo highlight selection
                 ((Activity) view.getContext()).startActionMode(mModeCallBack);
@@ -163,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
