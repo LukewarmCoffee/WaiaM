@@ -6,8 +6,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.ActionMode;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,9 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class NewIncomeActivity extends AppCompatActivity implements TimePickerFragment.setTimeListener {
-    public static final String EXTRA_REPLY = "com.example.android.incomelistsql.REPLY";
-    private int mId = 0, mRequestCode;
-    private long mTimeIn, mTimeWorked;
+    private int mId = 0;
     private double mEarnings;
 
     private TextView mEditTimeInView, mEditTimeOutView, mEditEarningsView;

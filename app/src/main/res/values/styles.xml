@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionModeBackground">@color/colorPrimary</item>
+        <item name="actionModeBackground">@color/colorPrimaryDark</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_black_24dp</item>
     </style>
     <style name="AppTheme.NoActionBar">
@@ -26,6 +26,10 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginBottom">6dp</item>
         <item name="android:paddingLeft">8dp</item>
+    </style>
+
+    <style name="NightMode" parent="Theme.AppCompat.NoActionBar" >
+        <item name="android:colorBackground">@color/background_material_dark</item>
     </style>
 
 </resources>

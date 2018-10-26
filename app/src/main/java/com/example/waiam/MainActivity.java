@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private IncomeViewModel mIncomeViewModel;
     private Integer mPosition;
     private View highlightedView;
+    private boolean mNightMode = false; //todo put in pref
     //for card views, each method creates a card
     private CalcsPagerAdapter mCalcAdapter;
 
@@ -44,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
 
         mModeCallBack = new ActionMode.Callback() {
@@ -176,12 +176,24 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.action_nightmode){
+            mNightMode = !mNightMode;   //change to preferences
+            getTheme();
+        }
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Resources.Theme getTheme(){
+        Resources.Theme theme = super.getTheme();
+        if (getBaseContext().getApplicationInfo().theme == R.style.AppTheme && mNightMode)
+            theme.applyStyle(R.style.NightMode, true);
+        return theme;
     }
 
     @Override
