@@ -6,8 +6,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -35,9 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private IncomeViewModel mIncomeViewModel;
     private Integer mPosition;
     private View highlightedView;
-    private boolean mNightMode = false; //todo put in pref
+    private boolean mNightMode; //todo put in pref
     //for card views, each method creates a card
     private CalcsPagerAdapter mCalcAdapter;
+    private SharedPreferences mPrefs;
 
     private ActionMode.Callback mModeCallBack;
 
@@ -45,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (mPrefs.getBoolean("nightmode", false))
+            setTheme(R.style.NightMode);
+        else
+            setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
 
@@ -174,27 +182,33 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch(item.getItemId()) {
+            case R.id.action_nightmode:
+                if(mPrefs.getBoolean("nightmode", false))
+                    mPrefs.edit().putBoolean("nightmode", false).apply();
+                else
+                    mPrefs.edit().putBoolean("nightmode", true).apply();
+                recreate();
+                return true;
 
-        if (id == R.id.action_nightmode){
-            mNightMode = !mNightMode;   //change to preferences
-            getTheme();
-        }
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+            case R.id.action_settings:
+                return true;
 
-        return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
-    @Override
+    /*@Override
     public Resources.Theme getTheme(){
         Resources.Theme theme = super.getTheme();
-        if (getBaseContext().getApplicationInfo().theme == R.style.AppTheme && mNightMode)
+        if (mNightMode)
             theme.applyStyle(R.style.NightMode, true);
+        else
+            theme.applyStyle(R.style.AppTheme, true);
         return theme;
-    }
+    }*/
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode){
@@ -230,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(
                     getApplicationContext(),
-                    R.string.empty_not_saved,   //todo: change this so the user doesnt have to go to another screen just to see the not ok result.
+                    R.string.empty_not_saved,
                     Toast.LENGTH_LONG).show();
         }
     }

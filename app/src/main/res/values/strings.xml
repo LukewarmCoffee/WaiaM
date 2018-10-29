@@ -20,4 +20,5 @@
     <string name="show_hours_worked">Hours Worked</string>
     <string name="show_earnings">Earnings</string>
     <string name="empty_not_saved">Income not saved because there are empty fields.</string>
+    <string name="nightmode">Night Theme</string>
 </resources>
