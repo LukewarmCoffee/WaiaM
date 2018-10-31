@@ -6,7 +6,6 @@
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/MyOverFlow</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
-        <!-- todo statusbartextcolor -->
 
         <!--Custom Colors -->
         <item name="colorPrimary">@color/colorPrimary</item>
