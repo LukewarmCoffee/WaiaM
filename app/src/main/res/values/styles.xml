@@ -2,20 +2,46 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Custom ActionbarChanges -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyOverFlow</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <!-- todo statusbartextcolor -->
+
+        <!--Custom Colors -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionModeBackground">@color/colorPrimaryDark</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_black_24dp</item>
     </style>
-    <style name="AppTheme.NoActionBar">
+
+    <!-- this theme likely isnt used -->
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="windowNoTitle">true</item>
         <item name="android:actionBarStyle">@color/colorPrimary</item>
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="AppTheme">
+    </style>
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@color/colorPrimary</item>
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+    </style>
+
+    <style name="MyActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="MyOverFlow">
+        <item name="android:src">@drawable/ic_more_vert_black_24dp</item>
+    </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <!-- The default font for RecyclerView items is too small.
     The margin is a simple delimiter between the words. -->
@@ -27,10 +53,15 @@
         <item name="android:layout_marginBottom">6dp</item>
         <item name="android:paddingLeft">8dp</item>
     </style>
-
+    <!-- Secondary application theme -->
     <style name="NightMode" parent="Base.Theme.AppCompat.Light.DarkActionBar" >
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="color">@color/colorNight</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyOverFlow</item>
         <item name="android:colorBackground">@color/background_material_dark</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
     </style>
 
 </resources>
