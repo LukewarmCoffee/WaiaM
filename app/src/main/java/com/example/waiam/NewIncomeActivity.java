@@ -1,6 +1,8 @@
 package com.example.waiam;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -20,12 +22,19 @@ import java.util.Locale;
 public class NewIncomeActivity extends AppCompatActivity implements TimePickerFragment.setTimeListener {
     private int mId = 0;
     private double mEarnings;
+    private SharedPreferences mPrefs;
+
 
     private TextView mEditTimeInView, mEditTimeOutView, mEditEarningsView;
     private Date mDateIn, mDateOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (mPrefs.getBoolean("nightmode", false))
+            setTheme(R.style.NightMode);
+        else
+            setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_income);
 

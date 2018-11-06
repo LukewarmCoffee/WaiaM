@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@android:color/transparent">
+    app:cardBackgroundColor="?attr/colorPrimary">
 
     <TextView
         android:textSize="45dp"

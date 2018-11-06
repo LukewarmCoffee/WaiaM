@@ -10,10 +10,12 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -37,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private IncomeViewModel mIncomeViewModel;
     private Integer mPosition;
     private View highlightedView;
-    private boolean mNightMode; //todo put in pref
     //for card views, each method creates a card
     private CalcsPagerAdapter mCalcAdapter;
     private SharedPreferences mPrefs;
@@ -49,11 +50,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (mPrefs.getBoolean("nightmode", false))
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.NightMode);
+
+        /*if (mPrefs.getBoolean("nightmode", false))
             setTheme(R.style.NightMode);
         else
-            setTheme(R.style.AppTheme);
+            setTheme(R.style.AppTheme);*/
         setContentView(R.layout.activity_main);
+
 
 
         mModeCallBack = new ActionMode.Callback() {
@@ -184,14 +189,19 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch(item.getItemId()) {
             case R.id.action_nightmode:
-                if(mPrefs.getBoolean("nightmode", false))
+                if(mPrefs.getBoolean("nightmode", false)) {
                     mPrefs.edit().putBoolean("nightmode", false).apply();
-                else
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+                else {
                     mPrefs.edit().putBoolean("nightmode", true).apply();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
                 recreate();
                 return true;
 
             case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
 
             default:

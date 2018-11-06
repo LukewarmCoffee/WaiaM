@@ -54,13 +54,17 @@
     </style>
     <!-- Secondary application theme -->
     <style name="NightMode" parent="Base.Theme.AppCompat.Light.DarkActionBar" >
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryNight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
         <item name="colorPrimary">@color/colorPrimaryNight</item>
         <item name="color">@color/colorNight</item>
         <item name="android:actionOverflowButtonStyle">@style/MyOverFlow</item>
-        <item name="android:colorBackground">@color/background_material_dark</item>
+        <item name="android:colorBackground">@color/colorPrimaryDarkNight</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorPrimary">@color/text_color_primary</item>
+
+        <item name="android:itemBackground">@color/offNight</item>
     </style>
 
 </resources>

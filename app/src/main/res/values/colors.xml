@@ -6,8 +6,8 @@
     <color name="colorAccent">#57B35B</color>
 
     <!--NightMode Theme colors -->
-    <color name="colorPrimaryNight">#070707</color>
-    <color name="colorPrimaryDarkNight">#000000</color>
+    <color name="colorPrimaryNight">#000000</color>
+    <color name="colorPrimaryDarkNight">#2f2f30</color>
     <color name="colorAccentNight">#57B35B</color>
     <color name="colorNight">#FFFFFF</color>
 
@@ -16,5 +16,7 @@
     <color name="background_material_dark">#000000</color>
     <color name="white">#ffffff</color>
     <color name="text_color_primary">#ddffffff</color>
+    <color name="textColorSecondaryNight">#e3f9e7</color>
     <color name="colorSecondary">#fdf9f9</color>
+    <color name="offNight">#767776</color>
 </resources>
