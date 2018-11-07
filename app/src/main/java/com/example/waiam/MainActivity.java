@@ -1,6 +1,9 @@
 package com.example.waiam;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -24,6 +27,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
@@ -58,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
         else
             setTheme(R.style.AppTheme);*/
         setContentView(R.layout.activity_main);
+
+        SharedPreferences.OnSharedPreferenceChangeListener listener =
+                new SharedPreferences.OnSharedPreferenceChangeListener() {
+                    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                        // listener implementation
+                        if(key.equals("nightmode"))
+                            recreate();
+                    }
+                };
+        mPrefs.registerOnSharedPreferenceChangeListener(listener);
 
 
 
@@ -147,6 +162,9 @@ public class MainActivity extends AppCompatActivity {
                 //every time theres a change to incomes, we completely refresh our cards. This tends to be a bit expensive, especially since each method is O(n) rn
                 mCalcAdapter = new CalcsPagerAdapter();
                 NumberFormat deciForm = new DecimalFormat("##.##");
+                /*for (int i = 0; i < adapterLength; i++){
+                    mCalcAdapter.addCalcsItem(card(i));
+                }*/
                 mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage())));
                 mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings())));
                 mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked())));
@@ -199,6 +217,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 recreate();
                 return true;
+            case R.id.menu_edit:
+                displayCardFrag();
+                return true;
 
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -208,6 +229,17 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void displayCardFrag(){
+        CardPickerFragment cardPickerFragment = new CardPickerFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, cardPickerFragment).addToBackStack(null).commit();
+        FrameLayout framey = findViewById(R.id.fragment_container);
+        framey.bringToFront();
+        framey.invalidate();
+
     }
 
     /*@Override

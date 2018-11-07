@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_brightness_3_white_24dp"
         android:title="@string/show_datein"
         app:showAsAction="ifRoom"/>
+    <item android:id="@+id/menu_edit"
+        android:icon="@drawable/ic_edit_black_24dp"
+        android:title="@string/show_datein"
+        app:showAsAction="ifRoom"
+        />
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
