@@ -22,7 +22,10 @@
         <activity android:name=".NewIncomeActivity" />
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".CardPicker"
+            android:label="@string/title_activity_card_picker"></activity>
     </application>
 
 </manifest>

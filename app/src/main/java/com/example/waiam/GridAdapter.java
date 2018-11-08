@@ -17,7 +17,7 @@ public class GridAdapter extends BaseAdapter {
         return mThumbIds.length;
     }
 
-    public Object getItem(int postition){
+    public Object getItem(int position){
         return null;
     }
 
@@ -39,5 +39,5 @@ public class GridAdapter extends BaseAdapter {
         return textView;
     }
 
-    private String[] mThumbIds = {"sdfjk", "dsfklsjnfkjsdn", "sdfsd", "sdfsdf", "Dfasdfsadf", "Sdfewee", "gergr"};
+    private String[] mThumbIds = {"Hourly Wage", "Total Earnings", "Hours Worked"};
 }
