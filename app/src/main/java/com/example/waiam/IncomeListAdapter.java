@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.IncomeViewHolder>{
     private final LayoutInflater mInflater;
     private List<Income> mIncomes; //cached copy of incomes
-    private IncomeViewModel mIncomeViewModel;   //probably not a good idea to have this here
     private OnRecyclerItemClickListener mRecyclerItemClickListener;
 
     IncomeListAdapter(Context context, OnRecyclerItemClickListener recyclerItemClickListener){

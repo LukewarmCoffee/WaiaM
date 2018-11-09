@@ -232,13 +232,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayCardFrag(){
-        CardPickerFragment cardPickerFragment = new CardPickerFragment();
+       startActivity(new Intent(this, CardPicker.class));
+       /* CardPickerFragment cardPickerFragment = new CardPickerFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, cardPickerFragment).addToBackStack(null).commit();
         FrameLayout framey = findViewById(R.id.fragment_container);
         framey.bringToFront();
-        framey.invalidate();
+        framey.invalidate();*/
 
     }
 
