@@ -165,9 +165,9 @@ public class MainActivity extends AppCompatActivity {
                 /*for (int i = 0; i < adapterLength; i++){
                     mCalcAdapter.addCalcsItem(card(i));
                 }*/
-                mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage())));
-                mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings())));
-                mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked())));
+                mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage()), true));
+                mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings()), true));
+                mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked()), true));
                 viewPager.setAdapter(mCalcAdapter);
                 //todo expert: modify old cards without replacing any
             }

@@ -1,28 +1,35 @@
 package com.example.waiam;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> {
+public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> /*implements View.OnClickListener*/{
     private List<String> titleList =  new ArrayList<>();
     private List<String> summaryList = new ArrayList<>();
-    private List<Integer> mainViewList = new ArrayList<>();
+    private List<Boolean> mainViewList = new ArrayList<>();
+    private List<CardData> mCards = new ArrayList<>();
+    SparseBooleanArray radioStates = new SparseBooleanArray();
     private final LayoutInflater mInflater;
 
-    static class CardViewHolder extends RecyclerView.ViewHolder {
+    static class CardViewHolder extends RecyclerView.ViewHolder{
         private TextView mTitle;
         private TextView mSummary;
         private TextView mOrder;
-        private RadioButton mInMainView;
+        private CheckBox mInMainView;
 
         public CardViewHolder(View view){
             super(view);
@@ -33,10 +40,28 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         }
     }
 
-    CardListAdapter (Context context){
+    CardListAdapter (List<CardData> getCards, Context context){
+        try{
+            mCards = getCards;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         mInflater = LayoutInflater.from(context);
         getTitles();
     }
+
+  /*  @Override
+    public void onClick(View view) {
+        ConstraintLayout layout = (ConstraintLayout) view.getParent();
+        int adapterPosition =
+        if(!radioStates.get(adapterPosition, false)){
+            (RadioButton)view.setChecked(true);
+            radioStates.put(adapterPosition, true);
+        }else {
+            mInMainView.setChecked(false);
+            radioStates.put(adapterPosition, false);
+        }
+    }*/
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -45,8 +70,22 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
     }
 
     @Override
-    public void onBindViewHolder(CardViewHolder holder, int position) {
+    public void onBindViewHolder(CardViewHolder holder, final int position) {
         if (titleList != null) {
+            final CardData isChecked = mCards.get(position);
+            holder.mInMainView.setOnCheckedChangeListener(null);
+            holder.mInMainView.setChecked(isChecked.getSelected());
+            holder.mInMainView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    isChecked.setSelected(b);
+                }
+            });
+            /*if(!radioStates.get(position, false)){
+                holder.mInMainView.setChecked(false);
+            } else {
+                holder.mInMainView.setChecked(true);
+            }*/
             String currentTitle = titleList.get(position);
             holder.mTitle.setText(currentTitle);
             String currentSummary = summaryList.get(position);
@@ -78,4 +117,6 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         else
             return 0;
     }
+
+
 }
