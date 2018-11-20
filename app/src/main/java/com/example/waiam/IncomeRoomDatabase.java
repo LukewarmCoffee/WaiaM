@@ -14,10 +14,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-@Database(entities = {Income.class}, version = 11) //TODO: migration strategy
+@Database(entities = {Income.class, CardData.class}, version = 12) //TODO: migration strategy
 @TypeConverters({Converters.class})
 public abstract class IncomeRoomDatabase extends RoomDatabase {
     public abstract IncomeDao incomeDao();
+    public abstract CardDao cardDao();
 
     private static IncomeRoomDatabase INSTANCE;
 
@@ -56,9 +57,11 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final IncomeDao mDao;
+        private final CardDao mCardDao;
 
         PopulateDbAsync(IncomeRoomDatabase db) {
             mDao = db.incomeDao();
+            mCardDao = db.cardDao();
         }
 
         //this is a dummy holder
@@ -70,6 +73,10 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
             long timeWorked = 2000;
             Income income = new Income(0, dateIn, timeWorked, 100.00);
             mDao.insert(income);
+
+            mCardDao.insert(new CardData(R.string.total_earnings, "dfsdf", true));
+            mCardDao.insert(new CardData(R.string.total_hoursworked, "dfsdf", true));
+            mCardDao.insert(new CardData(R.string.hourly_wage, "dfsdf", true));
 
             return null;
         }

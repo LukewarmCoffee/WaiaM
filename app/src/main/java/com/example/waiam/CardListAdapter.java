@@ -21,7 +21,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
     private List<String> titleList =  new ArrayList<>();
     private List<String> summaryList = new ArrayList<>();
     private List<Boolean> mainViewList = new ArrayList<>();
-    private List<CardData> mCards = new ArrayList<>();
+    private List<CardData> mCards;// = new ArrayList<>();
     SparseBooleanArray radioStates = new SparseBooleanArray();
     private final LayoutInflater mInflater;
 
@@ -40,14 +40,14 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         }
     }
 
-    CardListAdapter (List<CardData> getCards, Context context){
-        try{
+    CardListAdapter (/*List<CardData> getCards,*/ Context context){
+       /* try{
             mCards = getCards;
         } catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
         mInflater = LayoutInflater.from(context);
-        getTitles();
+       // getTitles();
     }
 
   /*  @Override
@@ -86,15 +86,19 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
             } else {
                 holder.mInMainView.setChecked(true);
             }*/
-            String currentTitle = titleList.get(position);
-            holder.mTitle.setText(currentTitle);
-            String currentSummary = summaryList.get(position);
-            holder.mSummary.setText(currentSummary);
+           // String currentTitle = titleList.get(position);
+            holder.mTitle.setText(isChecked.getTitle());
+            holder.mSummary.setText(isChecked.getContent());
         }
         else{
             holder.mTitle.setText("no title");
             holder.mSummary.setText("no summary");
         }
+    }
+
+    void setCards(List<CardData> cards){
+        mCards = cards;
+        notifyDataSetChanged();
     }
 
     //todo move this out
@@ -112,8 +116,8 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
 
     @Override
     public int getItemCount() {
-        if (titleList != null)
-            return titleList.size();
+        if (mCards != null)
+            return mCards.size();
         else
             return 0;
     }
