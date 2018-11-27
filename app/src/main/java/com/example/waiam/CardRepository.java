@@ -24,6 +24,10 @@ public class CardRepository {
         new CardRepository.insertAsyncTask(mCardDao).execute(card);
     }
 
+    public void update(CardData card){
+        new CardRepository.updateAsyncTask(mCardDao).execute(card);
+    }
+
     private static class insertAsyncTask extends AsyncTask<CardData, Void, Void> {
         private CardDao mAsyncTaskDao;
 
@@ -37,4 +41,19 @@ public class CardRepository {
             return null;
         }
     }
+
+    private static class updateAsyncTask extends AsyncTask<CardData, Void, Void> {
+        private CardDao mAsyncTaskDao;
+
+        updateAsyncTask(CardDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final CardData... params) {
+            mAsyncTaskDao.update(params[0]);
+            return null;
+        }
+    }
+
 }

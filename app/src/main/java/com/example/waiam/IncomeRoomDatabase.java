@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-@Database(entities = {Income.class, CardData.class}, version = 12) //TODO: migration strategy
+@Database(entities = {Income.class, CardData.class}, version = 16) //TODO: migration strategy
 @TypeConverters({Converters.class})
 public abstract class IncomeRoomDatabase extends RoomDatabase {
     public abstract IncomeDao incomeDao();
@@ -74,9 +74,9 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
             Income income = new Income(0, dateIn, timeWorked, 100.00);
             mDao.insert(income);
 
-            mCardDao.insert(new CardData(R.string.total_earnings, "dfsdf", true));
-            mCardDao.insert(new CardData(R.string.total_hoursworked, "dfsdf", true));
-            mCardDao.insert(new CardData(R.string.hourly_wage, "dfsdf", true));
+            mCardDao.insert(new CardData(0,R.string.total_earnings, "dfsdf", true));
+            mCardDao.insert(new CardData(1, R.string.total_hoursworked, "dfsdf", true));
+            mCardDao.insert(new CardData(2, R.string.hourly_wage, "dfsdf", true));
 
             return null;
         }

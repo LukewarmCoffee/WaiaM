@@ -40,8 +40,10 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
     public static final int NEW_INCOME_ACTIVITY_REQUEST_CODE = 1;
     public static final int NEW_INCOME_ACTIVITY_EDIT_REQUEST_CODE = 2;
+    public static final int CARD_EDIT_REQUEST_CODE = 3;
     //connects repository to view
     private IncomeViewModel mIncomeViewModel;
+    private CardViewModel mCardViewModel;
     private Integer mPosition;
     private View highlightedView;
     //for card views, each method creates a card
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
 
     private ActionMode.Callback mModeCallBack;
+
+    private List<CardData> mCards;
 
 
     @Override
@@ -143,11 +147,21 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(mCalcAdapter);
         viewPager.setOffscreenPageLimit(3);
 
+
         //holds the income list
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         final IncomeListAdapter adapter = new IncomeListAdapter(this, recyclerItemClickListener);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        mCardViewModel = ViewModelProviders.of(this).get(CardViewModel.class);
+        mCardViewModel.getAllCards().observe(this, new Observer<List<CardData>>() {
+            @Override
+            public void onChanged(@Nullable List<CardData> cardData) {
+                mCards = cardData;
+            }
+        });
 
         final CalcsDataAdapter  calcsDataAdapter = new CalcsDataAdapter();  //connects Calcs data to cards
         mIncomeViewModel = ViewModelProviders.of(this).get(IncomeViewModel.class);
@@ -165,9 +179,10 @@ public class MainActivity extends AppCompatActivity {
                 /*for (int i = 0; i < adapterLength; i++){
                     mCalcAdapter.addCalcsItem(card(i));
                 }*/
-                mCalcAdapter.addCalcsItem(new CardData(R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage()), true));
-                mCalcAdapter.addCalcsItem(new CardData(R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings()), true));
-                mCalcAdapter.addCalcsItem(new CardData(R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked()), true));
+
+                mCalcAdapter.addCalcsItem(new CardData(0, R.string.hourly_wage, "$" + deciForm.format(calcsDataAdapter.getHourlyWage()), true));
+                mCalcAdapter.addCalcsItem(new CardData(1, R.string.total_earnings,"$" + deciForm.format(calcsDataAdapter.getTotalEarnings()), true));
+                mCalcAdapter.addCalcsItem(new CardData(2, R.string.total_hoursworked, deciForm.format(calcsDataAdapter.getTotalHoursWorked()), true));
                 viewPager.setAdapter(mCalcAdapter);
                 //todo expert: modify old cards without replacing any
             }
@@ -218,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                 recreate();
                 return true;
             case R.id.menu_edit:
-                displayCardFrag();
+                startActivityForResult(new Intent(this, CardPicker.class), CARD_EDIT_REQUEST_CODE);
                 return true;
 
             case R.id.action_settings:
@@ -229,18 +244,6 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-    public void displayCardFrag(){
-       startActivity(new Intent(this, CardPicker.class));
-       /* CardPickerFragment cardPickerFragment = new CardPickerFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, cardPickerFragment).addToBackStack(null).commit();
-        FrameLayout framey = findViewById(R.id.fragment_container);
-        framey.bringToFront();
-        framey.invalidate();*/
-
     }
 
     /*@Override
@@ -284,6 +287,16 @@ public class MainActivity extends AppCompatActivity {
             Income income = new Income(id, dateIn, timeWorked, earnings);
             //Use the view model to insert an income into the db
             mIncomeViewModel.update(income);
+        } else if(requestCode == CARD_EDIT_REQUEST_CODE && resultCode == RESULT_OK){
+            Bundle dataReplies = data.getExtras();
+            CardData card;
+            for(int i = 0; i <= 2 ; i++){
+                card = mCards.get(i);
+                card.setSelected(dataReplies.getBoolean("" + i));
+                mCardViewModel.update(card);
+            }
+
+
         } else {
             Toast.makeText(
                     getApplicationContext(),

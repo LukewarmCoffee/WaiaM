@@ -20,4 +20,9 @@ public class CardViewModel extends AndroidViewModel {
 
 
     public void insert(CardData card) {mRepository.insert(card); }
+
+    public void update(CardData card) {mRepository.update(card);}
+
+    public CardData get(Integer position) {return mAllCards.getValue().get(position);}
+
 }

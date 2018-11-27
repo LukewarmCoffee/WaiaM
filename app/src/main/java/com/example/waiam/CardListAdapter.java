@@ -17,11 +17,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> /*implements View.OnClickListener*/{
+public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> implements GetPositionList{
     private List<String> titleList =  new ArrayList<>();
     private List<String> summaryList = new ArrayList<>();
     private List<Boolean> mainViewList = new ArrayList<>();
     private List<CardData> mCards;// = new ArrayList<>();
+    private Boolean[] posList = new Boolean[3]; //two is the current amount of cards
     SparseBooleanArray radioStates = new SparseBooleanArray();
     private final LayoutInflater mInflater;
 
@@ -50,18 +51,6 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
        // getTitles();
     }
 
-  /*  @Override
-    public void onClick(View view) {
-        ConstraintLayout layout = (ConstraintLayout) view.getParent();
-        int adapterPosition =
-        if(!radioStates.get(adapterPosition, false)){
-            (RadioButton)view.setChecked(true);
-            radioStates.put(adapterPosition, true);
-        }else {
-            mInMainView.setChecked(false);
-            radioStates.put(adapterPosition, false);
-        }
-    }*/
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -79,6 +68,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     isChecked.setSelected(b);
+                    posList[isChecked.getId()] = b;
                 }
             });
             /*if(!radioStates.get(position, false)){
@@ -98,21 +88,16 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
 
     void setCards(List<CardData> cards){
         mCards = cards;
+        posList[0] = mCards.get(0).getSelected();
+        posList[1] = mCards.get(1).getSelected();
+        posList[2] = mCards.get(2).getSelected();
         notifyDataSetChanged();
     }
 
-    //todo move this out
-    public void getTitles(){
-        titleList.add("SDf");
-        titleList.add("SDf");
-        titleList.add("SDf");
-        titleList.add("SDf");
-        summaryList.add("sgsd");
-        summaryList.add("sgsd");
-        summaryList.add("sgsd");
-        summaryList.add("sgsd");
-
+    public Boolean[] returnPositions(){
+        return posList;
     }
+
 
     @Override
     public int getItemCount() {

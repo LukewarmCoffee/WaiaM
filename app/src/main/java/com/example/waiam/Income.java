@@ -11,9 +11,6 @@ import java.util.Date;
 @Entity(tableName = "income_table")
 public class Income {
 
-    //todo create key that wont die on the same date and time
-
-
     @PrimaryKey(autoGenerate = true)
     private int id;
 

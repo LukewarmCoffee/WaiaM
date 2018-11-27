@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 public class CardData {
 
     @PrimaryKey
+    private int id;
+
     @ColumnInfo(name = "title")
     private int mTitle; //user will not update this value, make priamary
 
@@ -18,11 +20,14 @@ public class CardData {
     @ColumnInfo(name = "selected")
     private Boolean mSelected;  //todo change this to integer so you know what position on the viewpager
 
-    public CardData(int title, String content, Boolean selected){
+    public CardData(int id, int title, String content, Boolean selected){
+        this.id = id;
         mTitle = title;
         mContent = content;
         mSelected = selected;
     }
+
+    public int getId() {return id;}
 
     public int getTitle(){
         return mTitle;
