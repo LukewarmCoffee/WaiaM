@@ -20,7 +20,7 @@ import java.util.List;
 public class CardPicker extends AppCompatActivity {
 
     private CardViewModel viewModel;
-    private Boolean[] posList = new Boolean[3];
+    private boolean[] posList = new boolean[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +54,7 @@ public class CardPicker extends AppCompatActivity {
                 if (posList == null) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    Toast.makeText(getApplicationContext(), posList[1] + "",Toast.LENGTH_LONG ).show();
-                    allReplies.putBoolean("0", posList[0]);
-                    allReplies.putBoolean("1", posList[1]);
-                    allReplies.putBoolean("2", posList[2]);
+                    allReplies.putBooleanArray("posList", posList);
                     replyIntent.putExtras(allReplies);
                     setResult(RESULT_OK, replyIntent);
                 }

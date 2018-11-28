@@ -290,9 +290,10 @@ public class MainActivity extends AppCompatActivity {
         } else if(requestCode == CARD_EDIT_REQUEST_CODE && resultCode == RESULT_OK){
             Bundle dataReplies = data.getExtras();
             CardData card;
+            boolean[] posList = dataReplies.getBooleanArray("posList");
             for(int i = 0; i <= 2 ; i++){
                 card = mCards.get(i);
-                card.setSelected(dataReplies.getBoolean("" + i));
+                card.setSelected(posList[i]);
                 mCardViewModel.update(card);
             }
 

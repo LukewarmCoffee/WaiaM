@@ -7,23 +7,16 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> implements GetPositionList{
-    private List<String> titleList =  new ArrayList<>();
-    private List<String> summaryList = new ArrayList<>();
-    private List<Boolean> mainViewList = new ArrayList<>();
     private List<CardData> mCards;// = new ArrayList<>();
-    private Boolean[] posList = new Boolean[3]; //two is the current amount of cards
-    SparseBooleanArray radioStates = new SparseBooleanArray();
+    private boolean[] posList = new boolean[3]; //two is the current amount of cards
     private final LayoutInflater mInflater;
 
     static class CardViewHolder extends RecyclerView.ViewHolder{
@@ -59,8 +52,8 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
     }
 
     @Override
-    public void onBindViewHolder(CardViewHolder holder, final int position) {
-        if (titleList != null) {
+    public void onBindViewHolder(final CardViewHolder holder, final int position) {
+        if (mCards != null) {
             final CardData isChecked = mCards.get(position);
             holder.mInMainView.setOnCheckedChangeListener(null);
             holder.mInMainView.setChecked(isChecked.getSelected());
@@ -68,7 +61,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     isChecked.setSelected(b);
-                    posList[isChecked.getId()] = b;
+                    posList[holder.getAdapterPosition()] = b;
                 }
             });
             /*if(!radioStates.get(position, false)){
@@ -94,7 +87,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         notifyDataSetChanged();
     }
 
-    public Boolean[] returnPositions(){
+    public boolean[] returnPositions(){
         return posList;
     }
 
