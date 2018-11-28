@@ -37,6 +37,8 @@ public class CardData {
         return mContent;
     }
 
+    public void setContent(String content)  {mContent = content;}
+
     public Boolean getSelected(){return  mSelected;}
 
     public void setSelected(boolean selected){mSelected = selected;}
