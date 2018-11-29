@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ActionMode.Callback mModeCallBack;
 
-    private List<CardData> mCards;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,17 +151,17 @@ public class MainActivity extends AppCompatActivity {
         final IncomeListAdapter adapter = new IncomeListAdapter(this, recyclerItemClickListener);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        final CalcsDataAdapter  calcsDataAdapter = new CalcsDataAdapter();  //connects Calcs data to cards
 
         mCardViewModel = ViewModelProviders.of(this).get(CardViewModel.class);
         mCardViewModel.getAllCards().observe(this, new Observer<List<CardData>>() {
             @Override
             public void onChanged(@Nullable List<CardData> cardData) {
-                mCards = cardData;
+                calcsDataAdapter.setCards(cardData);
             }
         });
 
-        final CalcsDataAdapter  calcsDataAdapter = new CalcsDataAdapter();  //connects Calcs data to cards
+
         mIncomeViewModel = ViewModelProviders.of(this).get(IncomeViewModel.class);
         mIncomeViewModel.getAllIncomes().observe(this, new Observer<List<Income>>() {
             @Override
@@ -195,9 +193,12 @@ public class MainActivity extends AppCompatActivity {
                 mCardViewModel.update(card);
 
                 //adds those cards to the calcadapter
-                mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(0));
-                mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(1));
-                mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(2));
+                if ( mCardViewModel.getAllCards().getValue().get(0).getSelected())
+                    mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(0));
+                if ( mCardViewModel.getAllCards().getValue().get(1).getSelected())
+                    mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(1));
+                if ( mCardViewModel.getAllCards().getValue().get(2).getSelected())
+                    mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(2));
 
                 viewPager.setAdapter(mCalcAdapter);
                 //todo expert: modify old cards without replacing any
@@ -308,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
             CardData card;
             boolean[] posList = dataReplies.getBooleanArray("posList");
             for(int i = 0; i <= 2 ; i++){
-                card = mCards.get(i);
+                card = mCardViewModel.getAllCards().getValue().get(i);
                 card.setSelected(posList[i]);
                 mCardViewModel.update(card);
             }
