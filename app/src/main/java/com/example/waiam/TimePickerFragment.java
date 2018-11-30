@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.view.View;
 import android.widget.TimePicker;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     private setTimeListener mTimeListener;
@@ -29,7 +27,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final TimeViewModel model = ViewModelProviders.of(getActivity()).get(TimeViewModel.class);
-
         model.getSelected().observe(this, new Observer<TimeObj>() {
             @Override
             public void onChanged(@Nullable TimeObj timeObj) {
@@ -44,7 +41,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
 
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), this, hour, minute,
+        return new TimePickerDialog(getActivity(),R.style.DialogTheme, this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
     }
 

@@ -11,6 +11,11 @@ public class CalcsDataAdapter {
     private List<CardData> mCards;
     private List<CardData> viewCards;
 
+    CalcsDataAdapter(){
+        viewCards = new ArrayList<>();
+        viewCards.add(new CardData(3, 32, "dsfdf", true));
+    }
+
     //next up, take in the cardData
     //only perform calculations on Cards in Active Views
     //Return the Cards that need to be added to the viewpager

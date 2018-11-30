@@ -180,37 +180,10 @@ public class MainActivity extends AppCompatActivity {
                 //every time theres a change to incomes, we completely refresh our cards. This tends to be a bit expensive, especially since each method is O(n) rn
                 mCalcAdapter = new CalcsPagerAdapter();
 
-                /*for (int i = 0; i < adapterLength; i++){
-                    mCalcAdapter.addCalcsItem(card(i));
-                }*/
-
                 List<CardData> viewCards = calcsDataAdapter.getViewCards();
                 for (int i = 0; i < viewCards.size(); i++){
                     mCalcAdapter.addCalcsItem(viewCards.get(i));
                 }
-
-
-                //todo cleaning (make this more generic)
-                //updates the cards to match the new income data
-               /* NumberFormat deciForm = new DecimalFormat("##.##");
-                CardData card;
-                card =  mCardViewModel.getAllCards().getValue().get(0);
-                card.setContent("$" + deciForm.format(calcsDataAdapter.getHourlyWage()));
-                mCardViewModel.update(card);
-                card =  mCardViewModel.getAllCards().getValue().get(1);
-                card.setContent("$" + deciForm.format(calcsDataAdapter.getTotalEarnings()));
-                mCardViewModel.update(card);
-                card =  mCardViewModel.getAllCards().getValue().get(2);
-                card.setContent(deciForm.format(calcsDataAdapter.getTotalHoursWorked()));
-                mCardViewModel.update(card);
-
-                //adds those cards to the calcadapter
-                if ( mCardViewModel.getAllCards().getValue().get(0).getSelected())
-                    mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(0));
-                if ( mCardViewModel.getAllCards().getValue().get(1).getSelected())
-                    mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(1));
-                if ( mCardViewModel.getAllCards().getValue().get(2).getSelected())
-                    mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(2));*/
 
                 viewPager.setAdapter(mCalcAdapter);
                 //todo expert: modify old cards without replacing any

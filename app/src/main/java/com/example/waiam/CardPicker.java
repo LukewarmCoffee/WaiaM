@@ -3,11 +3,14 @@ package com.example.waiam;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,12 +22,16 @@ import java.util.List;
 
 public class CardPicker extends AppCompatActivity {
 
+    //private SharedPreferences mPrefs;
     private CardViewModel viewModel;
     private boolean[] posList = new boolean[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       // mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.NightMode);
         setContentView(R.layout.activity_card_picker);
 
 
