@@ -158,6 +158,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<CardData> cardData) {
                 calcsDataAdapter.setCards(cardData);
+                mCalcAdapter = new CalcsPagerAdapter();
+                List<CardData> viewCards = calcsDataAdapter.getViewCards();
+                for (int i = 0; i < viewCards.size(); i++){
+                    mCalcAdapter.addCalcsItem(viewCards.get(i));
+                }
+                viewPager.setAdapter(mCalcAdapter);
             }
         });
 
@@ -178,9 +184,15 @@ public class MainActivity extends AppCompatActivity {
                     mCalcAdapter.addCalcsItem(card(i));
                 }*/
 
+                List<CardData> viewCards = calcsDataAdapter.getViewCards();
+                for (int i = 0; i < viewCards.size(); i++){
+                    mCalcAdapter.addCalcsItem(viewCards.get(i));
+                }
+
+
                 //todo cleaning (make this more generic)
                 //updates the cards to match the new income data
-                NumberFormat deciForm = new DecimalFormat("##.##");
+               /* NumberFormat deciForm = new DecimalFormat("##.##");
                 CardData card;
                 card =  mCardViewModel.getAllCards().getValue().get(0);
                 card.setContent("$" + deciForm.format(calcsDataAdapter.getHourlyWage()));
@@ -198,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 if ( mCardViewModel.getAllCards().getValue().get(1).getSelected())
                     mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(1));
                 if ( mCardViewModel.getAllCards().getValue().get(2).getSelected())
-                    mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(2));
+                    mCalcAdapter.addCalcsItem( mCardViewModel.getAllCards().getValue().get(2));*/
 
                 viewPager.setAdapter(mCalcAdapter);
                 //todo expert: modify old cards without replacing any

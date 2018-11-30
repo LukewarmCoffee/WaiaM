@@ -2,15 +2,17 @@ package com.example.waiam;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CalcsDataAdapter {
     private List<Income> mIncomes;
     private List<CardData> mCards;
+    private List<CardData> viewCards;
 
     //next up, take in the cardData
-    //only perform calulations on Cards in Active Views
+    //only perform calculations on Cards in Active Views
     //Return the Cards that need to be added to the viewpager
 
     public void setIncomes(List<Income> incomes) {
@@ -18,7 +20,10 @@ public class CalcsDataAdapter {
         updateData();
     }  //update the data on the currently shown cards
 
-    public void setCards(List<CardData> cards) {mCards = cards;} //change the currently shown cards
+    public void setCards(List<CardData> cards) {
+        mCards = cards;
+        updateViewCards();
+    } //change the currently shown cards
 
     private void updateData(){
         NumberFormat deciForm = new DecimalFormat("##.##");
@@ -32,6 +37,17 @@ public class CalcsDataAdapter {
         }
     }
 
+    private void updateViewCards(){
+        viewCards = new ArrayList<>();
+        for (int i = 0; i < mCards.size(); i++){
+            if (mCards.get(i).getSelected())
+                viewCards.add(mCards.get(i));
+        }
+    }
+
+    public List<CardData> getViewCards(){
+        return viewCards;
+    }
 
     public Double getHourlyWage(){
         double earnings = 0.0;
