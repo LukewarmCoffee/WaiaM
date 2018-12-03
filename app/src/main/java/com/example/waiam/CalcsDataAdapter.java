@@ -13,7 +13,7 @@ public class CalcsDataAdapter {
 
     CalcsDataAdapter(){
         viewCards = new ArrayList<>();
-        viewCards.add(new CardData(3, 32, "dsfdf", true));
+        viewCards.add(new CardData(3, R.string.hourly_wage, "dsfdf", "lkjhn",true));  //stupidholder
     }
 
     //next up, take in the cardData

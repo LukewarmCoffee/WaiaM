@@ -4,7 +4,6 @@
         android:key="nightmode"
         android:title="@string/nightmode"
         android:defaultValue="false"/>
-
     <SwitchPreference
         android:defaultValue="true"
         android:key="example_switch"

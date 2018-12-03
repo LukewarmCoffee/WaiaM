@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
@@ -31,7 +32,11 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(),R.style.DialogTheme, this, year, month, day);
+        if(PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).getBoolean("nightmode",false))
+            return new DatePickerDialog(getActivity(),R.style.DialogThemeDark, this, year, month, day);
+        else
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {

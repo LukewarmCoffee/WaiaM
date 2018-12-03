@@ -57,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-            setTheme(R.style.NightMode);
+        /*if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.NightMode);*/
 
-        /*if (mPrefs.getBoolean("nightmode", false))
+        if (mPrefs.getBoolean("nightmode", false))
             setTheme(R.style.NightMode);
         else
-            setTheme(R.style.AppTheme);*/
+            setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
         SharedPreferences.OnSharedPreferenceChangeListener listener =
@@ -238,9 +238,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(new Intent(this, CardPicker.class), CARD_EDIT_REQUEST_CODE);
                 return true;
 
-            case R.id.action_settings:
+            /*case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
-                return true;
+                return true;*/
 
             default:
                 return super.onOptionsItemSelected(item);

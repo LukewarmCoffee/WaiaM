@@ -17,13 +17,17 @@ public class CardData {
     @ColumnInfo(name = "content")
     private String mContent;
 
+    @ColumnInfo(name = "description")
+    private String mDescription;
+
     @ColumnInfo(name = "selected")
     private Boolean mSelected;  //todo change this to integer so you know what position on the viewpager
 
-    public CardData(int id, int title, String content, Boolean selected){
+    public CardData(int id, int title, String content, String description, Boolean selected){
         this.id = id;
         mTitle = title;
         mContent = content;
+        mDescription = description;
         mSelected = selected;
     }
 
@@ -38,6 +42,8 @@ public class CardData {
     }
 
     public void setContent(String content)  {mContent = content;}
+
+    public String getDescription() {return mDescription;}
 
     public Boolean getSelected(){return  mSelected;}
 

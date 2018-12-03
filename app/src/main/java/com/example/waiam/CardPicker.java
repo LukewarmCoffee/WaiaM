@@ -29,9 +29,11 @@ public class CardPicker extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (mPrefs.getBoolean("nightmode", false))
             setTheme(R.style.NightMode);
+        else
+            setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_card_picker);
 
 

@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
@@ -41,8 +42,12 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
 
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(),R.style.DialogTheme, this, hour, minute,
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).getBoolean("nightmode",false))
+         return new TimePickerDialog(getActivity(),R.style.DialogThemeDark, this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
+        else
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
     }
 
     public void onTimeSet(TimePicker view, int hour, int minute) {

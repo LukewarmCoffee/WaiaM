@@ -71,7 +71,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
             }*/
            // String currentTitle = titleList.get(position);
             holder.mTitle.setText(isChecked.getTitle());
-            holder.mSummary.setText(isChecked.getContent());
+            holder.mSummary.setText(isChecked.getDescription());
         }
         else{
             holder.mTitle.setText("no title");
