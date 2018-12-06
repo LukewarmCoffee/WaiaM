@@ -1,6 +1,7 @@
 package com.example.waiam;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -37,7 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DeleteAlertFragment.ResultDialogListener {
     public static final int NEW_INCOME_ACTIVITY_REQUEST_CODE = 1;
     public static final int NEW_INCOME_ACTIVITY_EDIT_REQUEST_CODE = 2;
     public static final int CARD_EDIT_REQUEST_CODE = 3;
@@ -193,6 +194,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void deleteItem(Integer position){
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        if (mPrefs.getBoolean("nightmode", false))
+            bundle.putBoolean("nightmode", true);
+        else
+            bundle.putBoolean("nightmode", false);
+
+        DialogFragment dialog = new DeleteAlertFragment();
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager(), "deleteAlert");
+    }
+
+    public void onDialogPositiveClick(int position){
         mIncomeViewModel.delete(position);
     }
 
@@ -264,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         super.startActivityForResult(intent, requestCode);
     }
 
-    //method comes from newIncomeactivity
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
