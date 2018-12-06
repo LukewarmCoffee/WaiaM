@@ -28,8 +28,8 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             IncomeRoomDatabase.class, "income_database")
-                            .fallbackToDestructiveMigration() //resets database, because im too lazy to create migration pattern yet
-                            //.addCallback(sRoomDatabaseCallback) //make sure to edit this out if you want the database to persist
+                            //.fallbackToDestructiveMigration() //resets database, because im too lazy to create migration pattern yet
+                            .addCallback(sRoomDatabaseCallback) //make sure to edit this out if you want the database to persist
                             .build();
                 }
             }
@@ -68,13 +68,14 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
             mDao.deleteAll();
+            mCardDao.deleteAll();
 
             Date dateIn = new Date(2018,8,22, 4, 21);
             long timeWorked = 2000;
             Income income = new Income(0, dateIn, timeWorked, 100.00);
             mDao.insert(income);
 
-            mCardDao.insert(new CardData(0,R.string.total_earnings, "dfsdf", "Total amount earned while using this application.", true));
+            mCardDao.insert(new CardData(0, R.string.total_earnings, "dfsdf", "Total amount earned while using this application.", true));
             mCardDao.insert(new CardData(1, R.string.total_hoursworked, "dfsdf", "Total hours worked while using this application.", true));
             mCardDao.insert(new CardData(2, R.string.hourly_wage, "dfsdf", "Average earnings per hour.", true));
 

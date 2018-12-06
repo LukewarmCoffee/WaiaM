@@ -15,8 +15,9 @@ import android.widget.TextView;
 import java.util.List;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> implements GetPositionList{
-    private List<CardData> mCards;// = new ArrayList<>();
-    private boolean[] posList = new boolean[3]; //two is the current amount of cards
+    private List<CardData> mCards;
+    private boolean[] posList = new boolean[3]; //three is the current amount of cards, this is extremely lazy programming. I am sorry
+    private int[] orderList = new int[3];
     private final LayoutInflater mInflater;
 
     static class CardViewHolder extends RecyclerView.ViewHolder{
@@ -34,14 +35,9 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         }
     }
 
-    CardListAdapter (/*List<CardData> getCards,*/ Context context){
-       /* try{
-            mCards = getCards;
-        } catch (Exception e){
-            e.printStackTrace();
-        }*/
+    CardListAdapter ( Context context){
         mInflater = LayoutInflater.from(context);
-       // getTitles();
+
     }
 
 
@@ -72,6 +68,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
            // String currentTitle = titleList.get(position);
             holder.mTitle.setText(isChecked.getTitle());
             holder.mSummary.setText(isChecked.getDescription());
+            holder.mOrder.setText(orderList[position] + "");
         }
         else{
             holder.mTitle.setText("no title");
@@ -81,9 +78,12 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
 
     void setCards(List<CardData> cards){
         mCards = cards;
-        posList[0] = mCards.get(0).getSelected();
-        posList[1] = mCards.get(1).getSelected();
-        posList[2] = mCards.get(2).getSelected();
+        int order = 1;
+        for (int i = 0; i < posList.length; i++)
+            if(posList[i] = mCards.get(i).getSelected())
+                orderList[i]= order++;
+            else
+                orderList[i] = 0;
         notifyDataSetChanged();
     }
 
