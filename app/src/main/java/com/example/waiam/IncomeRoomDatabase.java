@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-@Database(entities = {Income.class, CardData.class}, version = 17) //TODO: migration strategy
+@Database(entities = {Income.class, CardData.class}, version = 19) //TODO: migration strategy
 @TypeConverters({Converters.class})
 public abstract class IncomeRoomDatabase extends RoomDatabase {
     public abstract IncomeDao incomeDao();
@@ -28,8 +28,8 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             IncomeRoomDatabase.class, "income_database")
-                            //.fallbackToDestructiveMigration() //resets database, because im too lazy to create migration pattern yet
-                            .addCallback(sRoomDatabaseCallback) //make sure to edit this out if you want the database to persist
+                            .fallbackToDestructiveMigration() //resets database, because im too lazy to create migration pattern yet
+                            //.addCallback(sRoomDatabaseCallback) //make sure to edit this out if you want the database to persist
                             .build();
                 }
             }
@@ -75,9 +75,9 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
             Income income = new Income(0, dateIn, timeWorked, 100.00);
             mDao.insert(income);
 
-            mCardDao.insert(new CardData(0, R.string.total_earnings, "dfsdf", "Total amount earned while using this application.", true));
-            mCardDao.insert(new CardData(1, R.string.total_hoursworked, "dfsdf", "Total hours worked while using this application.", true));
-            mCardDao.insert(new CardData(2, R.string.hourly_wage, "dfsdf", "Average earnings per hour.", true));
+            mCardDao.insert(new CardData(0, R.string.total_earnings, "dfsdf", "Total amount earned while using this application.", 1, true));
+            mCardDao.insert(new CardData(1, R.string.total_hoursworked, "dfsdf", "Total hours worked while using this application.", 2, true));
+            mCardDao.insert(new CardData(2, R.string.hourly_wage, "dfsdf", "Average earnings per hour.", 3, true));
 
             return null;
         }

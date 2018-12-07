@@ -1,6 +1,7 @@
 package com.example.waiam;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
@@ -12,12 +13,17 @@ import android.widget.CompoundButton;
 
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> implements GetPositionList{
     private List<CardData> mCards;
     private boolean[] posList = new boolean[3]; //three is the current amount of cards, this is extremely lazy programming. I am sorry
-    private int[] orderList = new int[3];
+    private List<Integer> orderList;
     private final LayoutInflater mInflater;
 
     static class CardViewHolder extends RecyclerView.ViewHolder{
@@ -57,18 +63,21 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     isChecked.setSelected(b);
-                    posList[holder.getAdapterPosition()] = b;
+                    int pos = holder.getAdapterPosition();
+                    posList[pos] = b;
+                    if (b){
+                        orderList.set(pos, findValue());
+                        holder.mOrder.setText(findValue() + "");
+                    } else {
+                        orderList.set(pos, 0);
+                        holder.mOrder.setText(0 + "");
+                    }
                 }
             });
-            /*if(!radioStates.get(position, false)){
-                holder.mInMainView.setChecked(false);
-            } else {
-                holder.mInMainView.setChecked(true);
-            }*/
-           // String currentTitle = titleList.get(position);
             holder.mTitle.setText(isChecked.getTitle());
             holder.mSummary.setText(isChecked.getDescription());
-            holder.mOrder.setText(orderList[position] + "");
+            //holder.mOrder.setText(orderList.get(position) + "");
+
         }
         else{
             holder.mTitle.setText("no title");
@@ -78,12 +87,35 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
 
     void setCards(List<CardData> cards){
         mCards = cards;
-        int order = 1;
-        for (int i = 0; i < posList.length; i++)
-            if(posList[i] = mCards.get(i).getSelected())
-                orderList[i]= order++;
+        orderList = new ArrayList<>();
+        for (int i = 0; i < mCards.size(); i++) {
+            if (posList[i] = mCards.get(i).getSelected())
+                orderList.add(mCards.get(i).getOrder());
             else
-                orderList[i] = 0;
+                orderList.add(0);
+        }
+
+
+
+        //currently useless
+        //gets ordered list for viewpager. also yikes on efficiency
+        List<CardData> orderList =  new ArrayList<>();
+        int max = 0;
+        for (int i = 0; i < mCards.size(); i++)
+            if(mCards.get(i).getOrder() > max)
+                max = mCards.get(i).getOrder();
+
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < mCards.size(); j++) {
+                if (mCards.get(j).getOrder() == i+1) {
+                    orderList.add(mCards.get(j));
+                }
+            }
+        }
+
+
+
+
         notifyDataSetChanged();
     }
 
@@ -99,6 +131,25 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         else
             return 0;
     }
+
+    //currently useless
+    private int findValue(){
+        int max = 0;
+        int items = 0;
+        for (int i = 0; i < mCards.size(); i++){
+            int orderVal = mCards.get(i).getOrder();
+            if (orderVal > 0)
+                items++;
+            if(orderVal > max)
+                max = orderVal;
+
+            int j;
+            if ((j = mCards.get(i).getOrder()) >= max)
+                max = j;
+        }
+        return max;
+    }
+
 
 
 }

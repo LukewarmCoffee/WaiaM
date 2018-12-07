@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
+import javax.xml.transform.Result;
+
 public class CardRepository {
     private CardDao mCardDao;
     private LiveData<List<CardData>> mAllCards;
@@ -26,6 +28,11 @@ public class CardRepository {
 
     public void update(CardData card){
         new CardRepository.updateAsyncTask(mCardDao).execute(card);
+    }
+
+    public Integer highestOrder(){
+        return mCardDao.highestOrder(); //lol no problem here
+       // return (new CardRepository.orderAsyncTask(mCardDao).execute()).get();
     }
 
     private static class insertAsyncTask extends AsyncTask<CardData, Void, Void> {
@@ -53,6 +60,24 @@ public class CardRepository {
         protected Void doInBackground(final CardData... params) {
             mAsyncTaskDao.update(params[0]);
             return null;
+        }
+    }
+
+    private static class orderAsyncTask extends AsyncTask<CardData, Void, Integer> {
+        private CardDao mAsyncTaskDao;
+
+        orderAsyncTask(CardDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Integer doInBackground(final CardData... params) {
+           return mAsyncTaskDao.highestOrder();
+        }
+
+        @Override
+        protected void onPostExecute(Integer result){
+
         }
     }
 

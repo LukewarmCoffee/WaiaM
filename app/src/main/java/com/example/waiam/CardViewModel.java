@@ -25,4 +25,6 @@ public class CardViewModel extends AndroidViewModel {
 
     public CardData get(Integer position) {return mAllCards.getValue().get(position);}
 
+    public int highestOrder() {return mRepository.highestOrder();}
+
 }

@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CalcsDataAdapter {
+    //todo put all these methods into queries?
     private List<Income> mIncomes;
     private List<CardData> mCards;
     private List<CardData> viewCards;
 
     CalcsDataAdapter(){
         viewCards = new ArrayList<>();
-        viewCards.add(new CardData(3, R.string.hourly_wage, "dsfdf", "lkjhn",true));  //stupidholder
+        viewCards.add(new CardData(3, R.string.hourly_wage, "dsfdf", "lkjhn",4, true));  //stupidholder
     }
 
     //next up, take in the cardData
@@ -28,16 +29,19 @@ public class CalcsDataAdapter {
     public void setCards(List<CardData> cards) {
         mCards = cards;
         updateViewCards();
+        //updateData();
     } //change the currently shown cards
 
+
+    //todo: reinstate ifs. if setcards is called and changes the cards in the viewpager and setincomes hasnt been called in a while, the data will not be correct
     private void updateData(){
         NumberFormat deciForm = new DecimalFormat("##.##");
         if (mCards != null){
-            if (mCards.get(0).getSelected())    //total earnings
+            //if (mCards.get(0).getSelected())    //total earnings
                 mCards.get(0).setContent("$" + deciForm.format(getTotalEarnings()));
-            if (mCards.get(1).getSelected())    //hours worked
+           // if (mCards.get(1).getSelected())    //hours worked
                 mCards.get(1).setContent("" + getTotalHoursWorked());
-            if (mCards.get(2).getSelected())    //hourly wage
+            //if (mCards.get(2).getSelected())    //hourly wage
                 mCards.get(2).setContent("$" + deciForm.format(getHourlyWage()));
         }
     }
