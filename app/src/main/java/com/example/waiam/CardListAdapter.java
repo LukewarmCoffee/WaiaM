@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +16,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> implements GetPositionList{
+public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> implements GetPositionList, ItemTouchHelperInterface {
     private List<CardData> mCards;
     private boolean[] posList = new boolean[3]; //three is the current amount of cards, this is extremely lazy programming. I am sorry
     private List<Integer> orderList;
@@ -121,6 +123,13 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
 
     public boolean[] returnPositions(){
         return posList;
+    }
+
+    @Override
+    public boolean onItemMove(int from, int to){
+        Collections.swap(mCards, from, to);
+        notifyItemMoved(from, to);
+        return true;
     }
 
 
