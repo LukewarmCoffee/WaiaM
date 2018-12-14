@@ -75,6 +75,7 @@ public abstract class IncomeRoomDatabase extends RoomDatabase {
             Income income = new Income(0, dateIn, timeWorked, 100.00);
             mDao.insert(income);
 
+            //todo whenever you add new strings to the stringfile it messes up the Card titles
             mCardDao.insert(new CardData(0, R.string.total_earnings, "dfsdf", "Total amount earned while using this application.", 1, true));
             mCardDao.insert(new CardData(1, R.string.total_hoursworked, "dfsdf", "Total hours worked while using this application.", 2, true));
             mCardDao.insert(new CardData(2, R.string.hourly_wage, "dfsdf", "Average earnings per hour.", 3, true));

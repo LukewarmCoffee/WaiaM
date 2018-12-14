@@ -14,6 +14,11 @@
     <string name="pick_timeout">Pick Time out</string>
     <string name="pick_dateout">Pick Date out</string>
     <string name="pick_earnings">Pick Earnings...</string>
+    <string name="picker_title">Title of Card</string>
+    <string name="picker_content">Content</string>
+    <string name="picker_inMain">Show in Main</string>
+
+
     <string name="hourly_wage">Hourly Wage</string>
     <string name="total_earnings">Total Earnings</string>
 
